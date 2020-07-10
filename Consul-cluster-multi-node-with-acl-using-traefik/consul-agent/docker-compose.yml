@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+# Consul Agent in external node
+  consul-agent:
+    image: consul:1.7.3
+    container_name: consul_agent
+    restart: always
+    ports:
+      - 8300:8300
+      - 8301:8301
+      - 8301:8301/udp
+      - 8302:8302
+      - 8302:8302/udp
+      - 8500:8500
+      - 53:53/udp 
+    volumes:
+      - ./consul/data:/consul/data
+      - ./consul/config/:/consul/config/
+    environment:
+      - "SERVICE_IGNORE=true"
+    command: "agent -config-dir=/consul/config/"
+
+#Registrator using consul agent to register automatic container in this node
+  registrator:
+    container_name: agent-registrator
+    image: gliderlabs/registrator:master
+    restart: always
+    depends_on:
+      - consul-agent
+    command: -ip ip_of_your_node consul://ip_of_your_node:8500
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    environment:
+      - "CONSUL_HTTP_TOKEN=your_uuid_registry token"
+
+#testmicroservice to see traefik tags
+  # ms-login:
+  #   restart: always
+  #   build:
+  #     context: ./ms-login
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000
+  #   environment:
+  #    - "SERVICE_NAME=ms-login"
+  #    - "SERVICE_TAGS=traefik.enable=true,traefik.http.routers.ms-login-rtr.entrypoints=http,traefik.http.routers.ms-login-rtr.rule=Host(`ms-login.env.yourdomain.com`)"
+  #    - "SERVICE_3000_NAME=ms-login"
+  #    - "SERVICE_3000_CHECK_HTTP=/health/check"
+  #    - "SERVICE_3000_CHECK_INTERVAL=15s"
+  #    - "SERVICE_3000_CHECK_TIMEOUT=1s"

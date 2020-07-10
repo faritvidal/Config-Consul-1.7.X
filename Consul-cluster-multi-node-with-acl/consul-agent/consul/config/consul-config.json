@@ -1,0 +1,26 @@
+{
+    "server": false,
+    "advertise_addr": "ip_of_your_node",
+    "client_addr": "0.0.0.0",
+    "datacenter": "consul",
+    "domain": "your_domain.com",
+    "data_dir": "/consul/data",
+    "start_join": ["ip_of_master1", "ip_of_master2", "ip_of_master3"],
+    "leave_on_terminate": true,
+    "rejoin_after_leave": true,
+    "retry_interval": "15s",
+    "retry_join": ["ip_of_master1", "ip_of_master2", "ip_of_master3"],
+    "node_name": "consul-agent-externo",
+    "enable_script_checks": true,
+    "disable_update_check": true,
+    "log_level": "DEBUG",
+    "acl": {
+      "enabled": true,
+      "default_policy": "deny",
+      "tokens": {
+        "agent":"your_uuid_agent token"
+      }
+    }
+  }
+ 
+

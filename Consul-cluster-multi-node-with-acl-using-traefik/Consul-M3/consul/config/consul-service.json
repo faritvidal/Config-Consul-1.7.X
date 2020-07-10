@@ -1,0 +1,24 @@
+{
+  "service": {
+    "id": "consul",
+    "name": "consul",
+    "token": "your_token_service_for_consul",
+    "tags": [
+      "traefik.enable=true",
+      "traefik.http.routers.consul-http-rtr.rule=Host(`consul.yourdomain.com`)",
+      "traefik.http.routers.consul-http-rtr.entrypoints=http"
+      ],
+    "port": 8500,
+    "checks": [
+      {
+        "name": "Consul Port 8500",
+        "tcp": "0.0.0.0:8500",
+        "tls_skip_verify": true,
+        "interval": "10s",
+        "timeout": "1s",
+        "success_before_passing": 3,
+        "failures_before_critical": 3
+      }
+    ]
+  }
+}

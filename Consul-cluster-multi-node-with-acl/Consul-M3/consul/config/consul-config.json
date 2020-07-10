@@ -1,0 +1,45 @@
+{
+  "advertise_addr": "ip_of_your_node",
+  "bootstrap": false,
+  "bootstrap_expect": 3,
+  "client_addr": "0.0.0.0",
+  "datacenter": "consul",
+  "domain": "your_domain.com",
+  "data_dir": "/consul/data",
+  "disable_update_check": true,
+  "enable_script_checks": false,
+  "enable_acl_replication": true,
+  "log_level": "DEBUG",
+  "node_name": "Master-3",
+  "leave_on_terminate": true,
+  "rejoin_after_leave": true,
+  "retry_interval": "15s",
+  "retry_join": ["ip_of_master1", "ip_of_master2", "ip_of_master3"],
+  "server": true,
+  "start_join": ["ip_of_master1", "ip_of_master2", "ip_of_master3"],
+  "ui": true,
+  "performance": {
+    "leave_drain_time": "5s",
+    "raft_multiplier": 1,
+    "rpc_hold_timeout": "7s"
+  },
+"ports": {
+    "dns": 8600,
+    "grpc": -1,
+    "http": 8500,
+    "https": -1,
+    "serf_lan": 8301,
+    "serf_wan": 8302,
+    "server": 8300
+  },
+"acl": {
+    "enabled": true,
+    "default_policy": "deny",
+    "down_policy": "extend-cache",
+    "enable_token_persistence": true,
+    "tokens": {
+      "master": "your_uuid_master_token",
+      "agent":"your_uuid_agent token"
+    }
+  }
+}

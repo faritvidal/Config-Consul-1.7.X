@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+#Consul Server Master 1
+  consul-server1:
+    image: consul:1.7.3
+    container_name: consul_master1
+    ports:
+      - 8500:8500
+      - 8600:8600
+    command: agent -server -node=Master-1 -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect 3 -config-file=/consul/config/config.json
+    volumes:
+      - ./consul/config/consul-config.json:/consul/config/config.json
+      - ./consul/data:/consul/data
+#Consul Server Master 2
+  consul-server2:
+    image: consul:1.7.3
+    container_name: consul_master2
+    command: agent -server -node=Master-2 -join consul-server1 -config-file=/consul/config/config.json
+    volumes:
+      - ./consul/config/consul-config.json:/consul/config/config.json
+    depends_on:
+      - consul-server1
+#Consul Server Master 3
+  consul-server3:
+    image: consul:1.7.3
+    container_name: consul_master3
+    command: agent -server -node=Master-3 -join consul-server1 -config-file=/consul/config/config.json
+    volumes:
+      - ./consul/config/consul-config.json:/consul/config/config.json
+    depends_on:
+      - consul-server1
+

@@ -1,0 +1,19 @@
+{
+  "service": {
+    "id": "consul",
+    "name": "consul",
+    "tags": [],
+    "port": 8500,
+    "checks": [
+      {
+        "name": "Consul Port 8500",
+        "tcp": "0.0.0.0:8500",
+        "tls_skip_verify": true,
+        "interval": "10s",
+        "timeout": "1s",
+        "success_before_passing": 3,
+        "failures_before_critical": 3
+      }
+    ]
+  }
+}
